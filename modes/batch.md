@@ -21,6 +21,17 @@ Conductor (headed browser mode)
 
 Each worker is a headless child process with a clean 200K token context. The conductor only orchestrates. See the **Headless / Batch Mode** table in `AGENTS.md` for the correct command per CLI.
 
+## Company Governor
+
+Before dispatching workers or Antigravity/Gemini agents, the conductor must run the same company guardrails used by `/career-ops pipeline`:
+
+- Normalize company names and inspect `job_applications.csv`.
+- Treat `Applied`, `Ready to Apply`, and `Needs Referral` as active statuses.
+- Allow only 1 active application per company in a 14-day window.
+- If multiple jobs share a company, dispatch only the strongest selected role; defer the rest with a structured reason.
+- For Ashby jobs, route qualified roles to `Needs Referral` and require text-extractable, sub-1MB-preferred PDF readiness before manual application.
+- Antigravity/Gemini bulk evaluator prompts should receive selected jobs only unless the user explicitly asks to audit deferred jobs.
+
 ## Files
 
 ```text

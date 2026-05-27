@@ -123,6 +123,13 @@ Los niveles son aditivos — se ejecutan todos, los resultados se mezclan y dedu
    - `applications.md` → empresa + rol normalizado ya evaluado
    - `pipeline.md` → URL exacta ya en pendientes o procesadas
 
+7.1. **Aplicar company governor antes de añadir a pipeline**:
+   - Normalizar empresa y consultar `job_applications.csv`.
+   - Considerar `Applied`, `Ready to Apply` y `Needs Referral` como estados activos.
+   - No añadir más de 1 aplicación activa por empresa dentro de 14 días.
+   - Si el scan encuentra varias ofertas de la misma empresa, priorizar la de mejor fit y dejar las demás como diferidas en el resumen/JSON de ejecución.
+   - Para Ashby (`jobs.ashbyhq.com`), marcar las ofertas fuertes como candidatas a `Needs Referral` antes de aplicación manual.
+
 7.5. **Verificar liveness de resultados de WebSearch (Nivel 3)** — ANTES de añadir a pipeline:
 
    Los resultados de WebSearch pueden estar desactualizados (Google cachea resultados durante semanas o meses). Para evitar evaluar ofertas expiradas, verificar con Playwright cada URL nueva que provenga del Nivel 3. Los Niveles 1 y 2 son inherentemente en tiempo real y no requieren esta verificación.
